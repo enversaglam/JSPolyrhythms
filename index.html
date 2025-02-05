@@ -18,7 +18,7 @@
         const trackCenter = { x: size / 2, y: size / 2 };
         const trackMinRadius = 50;
         const trackStep = 15;
-        const ballRadius = 10;
+        const ballRadius = 6;
         const ballMinSpeed = 0.01;
         const ballSpeedStep = -0.0001;
 
@@ -36,8 +36,9 @@
             const trackRadius = trackMinRadius + i * trackStep;
             const ballSpeed = ballMinSpeed + i * ballSpeedStep;
             const ballSoundFrequency = soundFrequecies[i];
-            const track = new Track(trackCenter, trackRadius);
-            const ball = new Ball(track, ballRadius, ballSpeed, ballSoundFrequency);
+            const hue = (i * 360) / N;
+            const track = new Track(trackCenter, trackRadius, hue);
+            const ball = new Ball(track, ballRadius, ballSpeed, ballSoundFrequency, hue);
             tracks.push(track);
             balls.push(ball);
         }
