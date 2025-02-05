@@ -5,23 +5,33 @@ class Ball {
         this.speed = speed;
         this.soundFrequency = soundFrequency;
         this.offset = 0;
-        this.direction = 1;
+        this.round = 0;
         this.center = this.track.getPosition(this.offset);
+    }
+    
+    move() {
+        this.offset += this.speed;
+        const res = this.track.getPosition(this.offset);
+        this.center = { x: res.x, y: res.y };
+        if (res.round != this.round) {
+            playSound(this.soundFrequency);
+            this.round = res.round;
+        }
     }
 
     draw(ctx) {
-        ctx.beginPath();
-        ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = 'white';
-        ctx.stroke();
-    }
-
-    move() {
-        this.offset += this.speed * this.direction;
-        this.center = this.track.getPosition(this.offset);
-        if (this.center.y > this.track.center.y) {
-            this.direction *= -1;
-            playSound(this.soundFrequency);
+        const fakeY = 2 * this.track.center.y - this.center.y;
+        if (fakeY > this.center.y) {
+            ctx.beginPath();
+            ctx.arc(this.center.x, this.center.y, this.radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
+        } else {
+            ctx.beginPath();
+            ctx.arc(this.center.x, fakeY, this.radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'white';
+            ctx.stroke();
         }
     }
+
 }
